@@ -4,5 +4,4 @@ WTForms
 Flask-Login
 Flask-SQLAlchemy
 pandas
-json
 Werkzeug
