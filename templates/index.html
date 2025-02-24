@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container">
+    <h1 class="text-center">欢迎来到在线测试平台</h1>
+    <div class="row mt-5">
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">导入题目</h5>
+                    <p class="card-text">通过Excel快速导入题目到题库</p>
+                    <a href="{{ url_for('import_questions') }}" class="btn btn-primary">立即导入</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">开始考试</h5>
+                    <p class="card-text">随机抽取题目进行测试</p>
+                    <a href="{{ url_for('exam') }}" class="btn btn-primary">开始测试</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">用户中心</h5>
+                    <p class="card-text">管理个人信息和考试记录</p>
+                    <a href="{{ url_for('login') }}" class="btn btn-primary">登录/注册</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

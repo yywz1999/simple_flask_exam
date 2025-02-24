@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container">
+    <h1 class="text-center">在线考试</h1>
+    <!-- 提交题目数量的表单 -->
+    <form action="{{ url_for('exam') }}" method="post">
+        {{ form.hidden_tag() }}
+        {{ form.count(class_='form-control', placeholder='请输入题目数量（1-100）') }}
+        {{ form.submit(class_='btn btn-primary') }}
+    </form>
+
+    {% if questions %}
+    <form action="{{ url_for('result') }}" method="post">
+        <!-- 显示题目 -->
+        <div class="row mt-5">
+            {% for question in questions %}
+            <div class="col-md-12">
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            {{ question.question }}
+                            <span class="badge bg-{{ 'success' if question.type == '单选' else 'info' }} float-end">
+                                {{ question.type }}
+                            </span>
+                        </h5>
+                        <div class="alert alert-{{ 'warning' if question.type == '单选' else 'info' }} mt-3" role="alert">
+                            {{ '请选出一个正确答案' if question.type == '单选' else '可以选择多个正确答案' }}
+                        </div>
+                        <div class="list-group">
+                            {% if question.type == '单选' %}
+                            <div class="list-group-item">
+                                {% for option in json.loads(question.options) %}
+                                <div class="form-check">
+                                    <input type="radio" 
+                                           class="form-check-input" 
+                                           name="question_{{ question.id }}" 
+                                           value="{{ chr(ord('A') + loop.index - 1) }}"
+                                           id="option_{{ question.id }}_{{ loop.index }}">
+                                    <label class="form-check-label" for="option_{{ question.id }}_{{ loop.index }}">
+                                        {{ option }}
+                                    </label>
+                                </div>
+                                {% endfor %}
+                            </div>
+                            {% else %}
+                            <div class="list-group-item">
+                                {% for option in json.loads(question.options) %}
+                                <div class="form-check">
+                                    <input type="checkbox" 
+                                           class="form-check-input" 
+                                           name="question_{{ question.id }}" 
+                                           value="{{ chr(ord('A') + loop.index - 1) }}"
+                                           id="option_{{ question.id }}_{{ loop.index }}">
+                                    <label class="form-check-label" for="option_{{ question.id }}_{{ loop.index }}">
+                                        {{ option }}
+                                    </label>
+                                </div>
+                                {% endfor %}
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <!-- 提交答案的表单 -->
+        <div class="text-center">
+            <button type="submit" class="btn btn-primary">提交答案</button>
+        </div>
+    </form>
+    {% endif %}
+</div>
+{% endblock %}

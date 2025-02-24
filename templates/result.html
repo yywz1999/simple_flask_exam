@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container">
+    <h1 class="text-center">考试结果</h1>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card mb-3">
+                <div class="card-body">
+                    <h5 class="card-title">正确率：{{ "%.2f"|format(accuracy) }}%</h5>
+                    <h5 class="card-subtitle mb-2 text-success">正确题目：{{ correct_count}}题</h5>
+                    <h5 class="card-subtitle mb-2 text-danger">错误题目：{{ wrong_count }}题</h5>
+                    <h5 class="card-subtitle mb-2 text-info">总题数：{{ all_answers }}题</h5>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card mb-3">
+                <div class="card-body">
+                    <h5 class="card-title">正确回答</h5>
+                    {% if result_details %}
+                    <ul class="list-group">
+                        {% for detail in result_details %}
+                        {% if detail.is_correct %}
+                        <li class="list-group-item list-group-item-success">
+                            <strong>题目{{ detail.question_id }}：</strong>{{ detail.question }}
+                            <br>
+                            <span class="text-success">正确答案：</span>{{ detail.correct_answer }}
+                            <br>
+                            <span class="text-success">你的答案：</span>{{ detail.user_answer }}
+                        </li>
+                        {% endif %}
+                        {% endfor %}
+                    </ul>
+                    {% else %}
+                    <p class="text-muted">暂无正确回答。</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="card mb-3">
+                <div class="card-body">
+                    <h5 class="card-title">错误回答</h5>
+                    {% if result_details %}
+                    <ul class="list-group">
+                        {% for detail in result_details %}
+                        {% if not detail.is_correct %}
+                        <li class="list-group-item list-group-item-danger">
+                            <strong>题目{{ detail.question_id }}：</strong>{{ detail.question }}
+                            <br>
+                            <span class="text-danger">正确答案：</span>{{ detail.correct_answer }}
+                            <br>
+                            <span class="text-danger">你的答案：</span>{{ detail.user_answer }}
+                        </li>
+                        {% endif %}
+                        {% endfor %}
+                    </ul>
+                    {% else %}
+                    <p class="text-muted">暂无错误回答。</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 返回主菜单按钮 -->
+    <div class="text-center mt-4">
+        <a href="{{ url_for('index') }}" class="btn btn-primary">返回主菜单</a>
+    </div>
+</div>
+{% endblock %}
