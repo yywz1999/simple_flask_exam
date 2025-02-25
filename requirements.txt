@@ -5,3 +5,4 @@ Flask-Login
 Flask-SQLAlchemy
 pandas
 Werkzeug
+openpyxl
